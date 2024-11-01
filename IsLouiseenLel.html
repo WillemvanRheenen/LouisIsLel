@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Title Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .title {
+            font-size: 3rem;
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1 id="dynamicTitle" class="title">Loading...</h1>
+
+    <script>
+        function updateTitle() {
+            const now = new Date();
+            const day = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            
+            // Convert current time to minutes since start of week
+            const currentTimeInMinutes = (day * 24 * 60) + (hours * 60) + minutes;
+            
+            // Calculate Friday 17:00 and Sunday 20:00 in minutes
+            const fridayStart = (5 * 24 * 60) + (17 * 60); // Friday 17:00
+            const sundayEnd = (7 * 24 * 60) + (20 * 60);   // Sunday 20:00
+            
+            // Check if current time is within weekend period
+            const isWeekend = currentTimeInMinutes >= fridayStart && 
+                            currentTimeInMinutes <= sundayEnd;
+            
+            const title = isWeekend ? "Louis is geen Lel" : "Louis is een Lel";
+            document.getElementById("dynamicTitle").textContent = title;
+            document.title = title;
+        }
+
+        // Update immediately and then every minute
+        updateTitle();
+        setInterval(updateTitle, 60000);
+    </script>
+</body>
+</html>
